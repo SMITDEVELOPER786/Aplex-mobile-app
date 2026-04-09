@@ -83,6 +83,7 @@
 		2216FECD4747422CA16C5DEC /* DMSans_36pt-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 07425C78F640402582CCD521 /* DMSans_36pt-SemiBoldItalic.ttf */; };
 		8B81188106674480A92ABB07 /* DMSans_36pt-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E4F367F58A445C9A9C64974 /* DMSans_36pt-Thin.ttf */; };
 		5B927493F1C248DD83A2319D /* DMSans_36pt-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E465981B0304CEF8F8D9B38 /* DMSans_36pt-ThinItalic.ttf */; };
+		BB3F938BED524F65AB0EC711 /* InterVariable.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D00FB6510E5948DC8D508825 /* InterVariable.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -168,6 +169,7 @@
 		07425C78F640402582CCD521 /* DMSans_36pt-SemiBoldItalic.ttf */ = {isa = PBXFileReference; name = "DMSans_36pt-SemiBoldItalic.ttf"; path = "../src/assets/fonts/static/DMSans_36pt-SemiBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		0E4F367F58A445C9A9C64974 /* DMSans_36pt-Thin.ttf */ = {isa = PBXFileReference; name = "DMSans_36pt-Thin.ttf"; path = "../src/assets/fonts/static/DMSans_36pt-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		2E465981B0304CEF8F8D9B38 /* DMSans_36pt-ThinItalic.ttf */ = {isa = PBXFileReference; name = "DMSans_36pt-ThinItalic.ttf"; path = "../src/assets/fonts/static/DMSans_36pt-ThinItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D00FB6510E5948DC8D508825 /* InterVariable.ttf */ = {isa = PBXFileReference; name = "InterVariable.ttf"; path = "../src/assets/fonts/static/InterVariable.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -317,6 +319,7 @@
 				07425C78F640402582CCD521 /* DMSans_36pt-SemiBoldItalic.ttf */,
 				0E4F367F58A445C9A9C64974 /* DMSans_36pt-Thin.ttf */,
 				2E465981B0304CEF8F8D9B38 /* DMSans_36pt-ThinItalic.ttf */,
+				D00FB6510E5948DC8D508825 /* InterVariable.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -456,6 +459,7 @@
 				2216FECD4747422CA16C5DEC /* DMSans_36pt-SemiBoldItalic.ttf in Resources */,
 				8B81188106674480A92ABB07 /* DMSans_36pt-Thin.ttf in Resources */,
 				5B927493F1C248DD83A2319D /* DMSans_36pt-ThinItalic.ttf in Resources */,
+				BB3F938BED524F65AB0EC711 /* InterVariable.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

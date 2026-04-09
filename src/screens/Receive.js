@@ -25,7 +25,7 @@ const Receive = ({ navigation }) => {
     const cryptoData = [
         { id: '1', name: 'Bitcoin', symbol: 'BTC', address: '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa', color: '#F7931A', image: require('../assets/images/Bitcoin.png') },
         { id: '2', name: 'Ethereum', symbol: 'ETH', address: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb', color: '#627EEA', image: require('../assets/images/ETH.png') },
-        { id: '3', name: 'Solana', symbol: 'SOL', address: '7EqQdEUaxGGeXNbR1M3P6v3bSfFzWLKQ3eMuJUvKjXrM', color: '#00D09C', image: require('../assets/images/SOL.png') },
+        { id: '3', name: 'Solana', symbol: 'SOL', address: '7EqQdEUaxGGeXNbR1M3P6v3bSfFzWLKQ3eMuJUvKjXrM', color: '#1F51FF', image: require('../assets/images/SOL.png') },
         { id: '4', name: 'USD Coin', symbol: 'USDC', address: '0x8E215d06EA7eC1fCE94e0d7D8f2B5C5b5E5f5e5e', color: '#2775CA', image: require('../assets/images/EDEL.png') },
     ];
 
@@ -164,7 +164,7 @@ const Receive = ({ navigation }) => {
                         onPress={handleCopyAddress}
                     >
                         {isCopied ? (
-                            <Check color="#00D09C" size={20} />
+                            <Check color="#1F51FF" size={20} />
                         ) : (
                             <Copy color="#FFFFFF" size={20} />
                         )}
@@ -198,7 +198,7 @@ const Receive = ({ navigation }) => {
                             {selectedCrypto.address}
                         </Text>
                         {isCopied ? (
-                            <Check color="#00D09C" size={20} />
+                            <Check color="#1F51FF" size={20} />
                         ) : (
                             <Copy color="#888888" size={20} />
                         )}
@@ -236,7 +236,7 @@ const Receive = ({ navigation }) => {
             {showSuccessToast && (
                 <View style={styles.toastContainer}>
                     <View style={styles.toastContent}>
-                        <Check color="#00D09C" size={20} />
+                        <Check color="#1F51FF" size={20} />
                         <Text style={styles.toastText}>Address copied to clipboard</Text>
                     </View>
                 </View>
@@ -280,7 +280,7 @@ const Receive = ({ navigation }) => {
                                         </View>
                                     </View>
                                     {selectedCrypto.id === crypto.id && (
-                                        <Check color="#00D09C" size={20} />
+                                        <Check color="#1F51FF" size={20} />
                                     )}
                                 </TouchableOpacity>
                             ))}
@@ -336,9 +336,9 @@ const styles = StyleSheet.create({
         left: -50,
         right: -50,
         height: 150,
-        backgroundColor: 'rgba(0, 208, 156, 0.1)',
+        backgroundColor: 'rgba(31, 81, 255, 0.1)',
         borderRadius: 100,
-        shadowColor: '#00D09C',
+        shadowColor: '#1F51FF',
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.3,
         shadowRadius: 40,
@@ -419,8 +419,8 @@ const styles = StyleSheet.create({
         width: 220,
         height: 220,
         borderRadius: 110,
-        backgroundColor: 'rgba(0, 208, 156, 0.08)',
-        shadowColor: '#00D09C',
+        backgroundColor: 'rgba(31, 81, 255, 0.08)',
+        shadowColor: '#1F51FF',
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.4,
         shadowRadius: 30,
@@ -484,7 +484,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     },
     actionButtonTextCopied: {
-        color: '#00D09C',
+        color: '#1F51FF',
     },
     addressSection: {
         marginBottom: 20,
@@ -576,13 +576,13 @@ const styles = StyleSheet.create({
         borderRadius: 12,
     },
     statusCompleted: {
-        backgroundColor: 'rgba(0, 208, 156, 0.15)',
+        backgroundColor: 'rgba(31, 81, 255, 0.15)',
     },
     statusPending: {
         backgroundColor: 'rgba(255, 149, 0, 0.15)',
     },
     statusText: {
-        color: '#00D09C',
+        color: '#1F51FF',
         fontSize: 12,
         fontFamily: 'DMSans-SemiBold',
         fontWeight: '600',
@@ -603,9 +603,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         borderRadius: 16,
         borderWidth: 1,
-        borderColor: '#00D09C',
+        borderColor: '#1F51FF',
         gap: 10,
-        shadowColor: '#00D09C',
+        shadowColor: '#1F51FF',
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.4,
         shadowRadius: 12,
@@ -655,9 +655,9 @@ const styles = StyleSheet.create({
         marginBottom: 8,
     },
     modalItemSelected: {
-        backgroundColor: 'rgba(0, 208, 156, 0.1)',
+        backgroundColor: 'rgba(31, 81, 255, 0.1)',
         borderWidth: 1,
-        borderColor: '#00D09C',
+        borderColor: '#1F51FF',
     },
     modalItemLeft: {
         flexDirection: 'row',

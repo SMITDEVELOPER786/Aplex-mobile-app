@@ -35,11 +35,11 @@ const TransactionHistory = ({ navigation }) => {
 
     const getIcon = (type) => {
         switch (type) {
-            case 'Buy': return <ArrowDownLeft color="#00D09C" size={20} />;
-            case 'Send': return <ArrowUpRight color="#FF5E1A" size={20} />;
-            case 'Receive': return <ArrowDownLeft color="#00D09C" size={20} />;
-            case 'Stake': return <Zap color="#00D09C" size={20} />;
-            case 'Swap': return <RefreshCcw color="#00D09C" size={20} />;
+            case 'Buy': return <ArrowDownLeft color="#1F51FF" size={20} />;
+            case 'Send': return <ArrowUpRight color="#FF5000" size={20} />;
+            case 'Receive': return <ArrowDownLeft color="#1F51FF" size={20} />;
+            case 'Stake': return <Zap color="#1F51FF" size={20} />;
+            case 'Swap': return <RefreshCcw color="#1F51FF" size={20} />;
             default: return <RefreshCcw color="#888888" size={20} />;
         }
     };
@@ -49,10 +49,10 @@ const TransactionHistory = ({ navigation }) => {
             case 'Buy': 
             case 'Receive':
             case 'Stake':
-                return '#00D09C';
+                return '#1F51FF';
             case 'Send':
             case 'Swap':
-                return '#FF5E1A';
+                return '#FF5000';
             default:
                 return '#888888';
         }
@@ -224,7 +224,7 @@ const TransactionHistory = ({ navigation }) => {
 
             {isLoading ? (
                 <View style={styles.loadingContainer}>
-                    <ActivityIndicator size="large" color="#00D09C" />
+                    <ActivityIndicator size="large" color="#1F51FF" />
                 </View>
             ) : (
                 <FlatList
@@ -314,9 +314,9 @@ const styles = StyleSheet.create({
         left: -50,
         right: -50,
         height: 120,
-        backgroundColor: 'rgba(0, 208, 156, 0.08)',
+        backgroundColor: 'rgba(31, 81, 255, 0.08)',
         borderRadius: 80,
-        shadowColor: '#00D09C',
+        shadowColor: '#1F51FF',
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.3,
         shadowRadius: 30,
@@ -427,7 +427,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 4,
         borderRadius: 8,
-        backgroundColor: 'rgba(0, 208, 156, 0.1)',
+        backgroundColor: 'rgba(31, 81, 255, 0.1)',
     },
     typeText: {
         fontSize: 11,
@@ -553,24 +553,24 @@ const styles = StyleSheet.create({
         opacity: 0.3,
     },
     radioCircleSelected: {
-        backgroundColor: '#00D09C',
-        borderColor: '#00D09C',
+        backgroundColor: '#1F51FF',
+        borderColor: '#1F51FF',
         opacity: 1,
     },
     closeSheetBtn: {
-        backgroundColor: '#00D09C',
+        backgroundColor: '#1F51FF',
         height: 56,
         borderRadius: 28,
         justifyContent: 'center',
         alignItems: 'center',
-        shadowColor: '#00D09C',
+        shadowColor: '#1F51FF',
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.4,
         shadowRadius: 12,
         elevation: 8,
     },
     closeSheetText: {
-        color: '#000000',
+        color: '#FFFFFF',
         fontSize: 17,
         fontFamily: 'DMSans-Bold',
         fontWeight: '700',

@@ -19,17 +19,17 @@ const SwapCoin = ({ navigation }) => {
     const [searchQuery, setSearchQuery] = useState('');
 
     const popularCoins = [
-        { id: '1', name: 'Solana', symbol: 'SOL', price: '$142.50', change: '+5.24%', holdings: '$12,450.00', color: '#00D09C', image: require('../assets/images/SOL.png') },
-        { id: '2', name: 'Bitcoin', symbol: 'BTC', price: '$67,234.00', change: '+2.15%', holdings: '$45,230.00', color: '#00D09C', image: require('../assets/images/Bitcoin.png') },
-        { id: '3', name: 'Ethereum', symbol: 'ETH', price: '$3,456.00', change: '+3.82%', holdings: '$8,920.00', color: '#00D09C', image: require('../assets/images/ETH.png') },
+        { id: '1', name: 'Solana', symbol: 'SOL', price: '$142.50', change: '+5.24%', holdings: '$12,450.00', color: '#1F51FF', image: require('../assets/images/SOL.png') },
+        { id: '2', name: 'Bitcoin', symbol: 'BTC', price: '$67,234.00', change: '+2.15%', holdings: '$45,230.00', color: '#1F51FF', image: require('../assets/images/Bitcoin.png') },
+        { id: '3', name: 'Ethereum', symbol: 'ETH', price: '$3,456.00', change: '+3.82%', holdings: '$8,920.00', color: '#1F51FF', image: require('../assets/images/ETH.png') },
         { id: '4', name: 'USD Coin', symbol: 'USDC', price: '$1.00', change: '+0.01%', holdings: '$5,000.00', color: '#888888', image: require('../assets/images/EDEL.png') },
     ];
 
     const allCoins = [
         ...popularCoins,
-        { id: '5', name: 'Polygon', symbol: 'MATIC', price: '$0.87', change: '-1.24%', holdings: '$1,230.00', color: '#FF5E1A', image: require('../assets/images/EDEL.png') },
-        { id: '6', name: 'Cardano', symbol: 'ADA', price: '$0.65', change: '+4.56%', holdings: '$2,340.00', color: '#00D09C', image: require('../assets/images/EDEL.png') },
-        { id: '7', name: 'Avalanche', symbol: 'AVAX', price: '$42.30', change: '-2.18%', holdings: '$3,450.00', color: '#FF5E1A', image: require('../assets/images/EDEL.png') },
+        { id: '5', name: 'Polygon', symbol: 'MATIC', price: '$0.87', change: '-1.24%', holdings: '$1,230.00', color: '#FF5000', image: require('../assets/images/EDEL.png') },
+        { id: '6', name: 'Cardano', symbol: 'ADA', price: '$0.65', change: '+4.56%', holdings: '$2,340.00', color: '#1F51FF', image: require('../assets/images/EDEL.png') },
+        { id: '7', name: 'Avalanche', symbol: 'AVAX', price: '$42.30', change: '-2.18%', holdings: '$3,450.00', color: '#FF5000', image: require('../assets/images/EDEL.png') },
     ];
 
     const filteredCoins = allCoins.filter(coin =>
@@ -93,7 +93,7 @@ const SwapCoin = ({ navigation }) => {
                                         
                                         <View style={styles.coinRight}>
                                             <Text style={styles.coinPrice}>{coin.price}</Text>
-                                            <Text style={[styles.coinChange, { color: coin.change.startsWith('+') ? '#00D09C' : '#FF5E1A' }]}>
+                                            <Text style={[styles.coinChange, { color: coin.change.startsWith('+') ? '#1F51FF' : '#FF5000' }]}>
                                                 {coin.change}
                                             </Text>
                                         </View>
@@ -135,7 +135,7 @@ const SwapCoin = ({ navigation }) => {
                                                 <Text style={styles.holdingsValue}>{coin.holdings}</Text>
                                             </View>
                                             <Text style={styles.coinPrice}>{coin.price}</Text>
-                                            <Text style={[styles.coinChange, { color: coin.change.startsWith('+') ? '#00D09C' : '#FF5E1A' }]}>
+                                            <Text style={[styles.coinChange, { color: coin.change.startsWith('+') ? '#1F51FF' : '#FF5000' }]}>
                                                 {coin.change}
                                             </Text>
                                         </View>
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         height: 1,
-        backgroundColor: '#00D09C',
+        backgroundColor: '#1F51FF',
         opacity: 0.3,
     },
     coinCardContent: {

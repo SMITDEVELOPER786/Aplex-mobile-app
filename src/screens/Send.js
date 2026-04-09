@@ -11,7 +11,7 @@ import {
     Dimensions,
     TextInput,
 } from 'react-native';
-import { ArrowLeft, X, Check, LayoutGrid, Maximize, AlertCircle, Scan } from 'lucide-react-native';
+import { ArrowLeft, X, Check, LayoutGrid, Maximize, AlertCircle, Scan, User } from 'lucide-react-native';
 import { useWallet } from '../context/WalletContext';
 import { Alert } from 'react-native';
 
@@ -26,9 +26,9 @@ const Send = ({ navigation }) => {
     const [error, setError] = useState('');
 
     const recents = [
-        { id: 1, name: 'Alex River', address: '1A7c3....3m4n5', initial: 'AR', color: '#00D09C' },
-        { id: 2, name: 'Jordan Stack', address: '0x712...8821', initial: 'JS', color: '#FF5E1A' },
-        { id: 3, name: 'Crypto Exchange', address: 'bc1q...99z2', initial: 'CE', color: '#00D09C' },
+        { id: 1, name: 'Alex River', address: '1A7c3....3m4n5' },
+        { id: 2, name: 'Jordan Stack', address: '0x712...8821' },
+        { id: 3, name: 'Crypto Exchange', address: 'bc1q...99z2' },
     ];
 
     const handleAmountKeyPress = (key) => {
@@ -99,13 +99,13 @@ const Send = ({ navigation }) => {
                                 style={[styles.pillIcon, walletMode === 'grid' && styles.pillActive]}
                                 onPress={() => setWalletMode('grid')}
                             >
-                                <LayoutGrid color={walletMode === 'grid' ? "#000000" : "#888888"} size={16} />
+                                <LayoutGrid color={walletMode === 'grid' ? '#FFFFFF' : '#888888'} size={16} />
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.pillIcon, walletMode === 'scan' && styles.pillActive]}
                                 onPress={() => setWalletMode('scan')}
                             >
-                                <Maximize color={walletMode === 'scan' ? "#000000" : "#888888"} size={16} />
+                                <Maximize color={walletMode === 'scan' ? '#FFFFFF' : '#888888'} size={16} />
                             </TouchableOpacity>
                         </View>
                     )}
@@ -145,8 +145,8 @@ const Send = ({ navigation }) => {
                                 setStep(2);
                             }}
                         >
-                            <View style={[styles.avatar, { backgroundColor: item.color }]}>
-                                <Text style={styles.avatarText}>{item.initial}</Text>
+                            <View style={styles.avatar}>
+                                <User color="#FFFFFF" size={22} strokeWidth={2} />
                             </View>
                             <View style={styles.contactInfo}>
                                 <Text style={styles.contactName}>{item.name}</Text>
@@ -291,7 +291,7 @@ const Send = ({ navigation }) => {
                     {/* Success Checkmark */}
                     <View style={styles.successCheckmarkContainer}>
                         <View style={styles.successCheckmarkCircle}>
-                            <Check color="#000000" size={40} strokeWidth={3} />
+                            <Check color="#FFFFFF" size={40} strokeWidth={3} />
                         </View>
                     </View>
                     
@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
         borderRadius: 18,
     },
     pillActive: {
-        backgroundColor: '#00D09C',
+        backgroundColor: '#1F51FF',
         borderRadius: 18,
     },
     headerAction: {
@@ -451,14 +451,12 @@ const styles = StyleSheet.create({
         width: 44,
         height: 44,
         borderRadius: 22,
+        backgroundColor: '#000000',
+        borderWidth: 1.5,
+        borderColor: '#FFFFFF',
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 15,
-    },
-    avatarText: {
-        color: '#FFFFFF',
-        fontSize: 16,
-        fontFamily: 'DMSans-Bold',
     },
     contactInfo: {
         flex: 1,
@@ -479,7 +477,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     addContactText: {
-        color: '#00D09C',
+        color: '#1F51FF',
         fontSize: 14,
         fontFamily: 'DMSans-SemiBold',
     },
@@ -542,17 +540,17 @@ const styles = StyleSheet.create({
     },
     // Step 3 Styles
     badge: {
-        backgroundColor: 'rgba(0, 208, 156, 0.15)',
+        backgroundColor: 'rgba(31, 81, 255, 0.15)',
         paddingHorizontal: 12,
         paddingVertical: 6,
         borderRadius: 20,
         marginTop: 10,
         marginBottom: 30,
         borderWidth: 1,
-        borderColor: '#00D09C',
+        borderColor: '#1F51FF',
     },
     badgeText: {
-        color: '#00D09C',
+        color: '#1F51FF',
         fontSize: 12,
         fontFamily: 'DMSans-SemiBold',
         fontWeight: '600',
@@ -640,9 +638,9 @@ const styles = StyleSheet.create({
         left: -100,
         right: -100,
         height: 300,
-        backgroundColor: 'rgba(0, 208, 156, 0.15)',
+        backgroundColor: 'rgba(31, 81, 255, 0.15)',
         borderRadius: 200,
-        shadowColor: '#00D09C',
+        shadowColor: '#1F51FF',
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.4,
         shadowRadius: 60,
@@ -657,10 +655,10 @@ const styles = StyleSheet.create({
         width: 80,
         height: 80,
         borderRadius: 40,
-        backgroundColor: '#00D09C',
+        backgroundColor: '#1F51FF',
         justifyContent: 'center',
         alignItems: 'center',
-        shadowColor: '#00D09C',
+        shadowColor: '#1F51FF',
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.5,
         shadowRadius: 20,
@@ -743,20 +741,20 @@ const styles = StyleSheet.create({
         width: width - 40,
     },
     whiteButton: {
-        backgroundColor: '#00D09C',
+        backgroundColor: '#1F51FF',
         borderRadius: 30,
         height: 56,
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
-        shadowColor: '#00D09C',
+        shadowColor: '#1F51FF',
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.4,
         shadowRadius: 12,
         elevation: 8,
     },
     whiteButtonText: {
-        color: '#000000',
+        color: '#FFFFFF',
         fontSize: 16,
         fontFamily: 'DMSans-Bold',
     },

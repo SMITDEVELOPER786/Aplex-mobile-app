@@ -38,7 +38,7 @@ const Confirmation = ({ navigation, route }) => {
 
             <View style={styles.content}>
                 <View style={styles.successIconContainer}>
-                    <CheckCircle2 color="#4CD964" size={80} strokeWidth={2} />
+                    <CheckCircle2 color="#1F51FF" size={80} strokeWidth={2} />
                 </View>
 
                 <Text style={styles.title}>{getHeaderTitle()}</Text>
@@ -61,7 +61,7 @@ const Confirmation = ({ navigation, route }) => {
                     </View>
                     <View style={styles.infoRow}>
                         <Text style={styles.infoLabel}>Status</Text>
-                        <Text style={[styles.infoValue, { color: '#4CD964' }]}>Completed</Text>
+                        <Text style={[styles.infoValue, { color: '#1F51FF' }]}>Completed</Text>
                     </View>
                 </View>
             </View>

@@ -9,58 +9,43 @@ import {
     Dimensions,
     StatusBar,
     Animated,
+    ScrollView,
+    Platform,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
+import { InterType, space } from '../theme/typography';
 
 const { width } = Dimensions.get('window');
 
 const Onboarding = ({ navigation }) => {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const swiperRef = useRef(null);
+    const [slideIndex, setSlideIndex] = useState(0);
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const scaleAnim = useRef(new Animated.Value(0.95)).current;
 
-    React.useEffect(() => {
-        Animated.parallel([
-            Animated.timing(fadeAnim, {
-                toValue: 1,
-                duration: 800,
-                useNativeDriver: true,
-            }),
-            Animated.timing(scaleAnim, {
-                toValue: 1,
-                duration: 800,
-                useNativeDriver: true,
-            }),
-        ]).start();
-    }, [currentIndex]);
-
     const slides = [
         {
-            id: 1,
-            title: 'Welcome to\nAlpexa Suisse',
-            description: 'Get access to the tools you need to invest, spend and put your money in motion.',
+            id: 'welcome',
+            title: 'Welcome to Alpexa Suisse',
+            description:
+                'Get access to the tools you need to invest, spend and put your money in motion.',
             image: require('../assets/images/Walthrough1.png'),
-            gradientColor: 'rgba(0, 208, 156, 0.15)',
         },
         {
-            id: 2,
+            id: 'airdrop',
             title: 'Start with just\n$1',
             description: 'Sign up and receive an airdrop of 100 ALPX shares',
             image: require('../assets/images/Walkthrough2.png'),
-            gradientColor: 'rgba(0, 208, 156, 0.12)',
         },
         {
-            id: 3,
+            id: 'security',
             title: "We've got you\ncovered",
-            description: 'Swiss bank-standard security powered by HSM, MPC keys, MFA, and AI threat monitoring.',
+            description:
+                'Swiss bank-standard security powered by HSM, MPC keys, MFA, and AI threat monitoring.',
             image: require('../assets/images/Walthrough3.png'),
-            gradientColor: 'rgba(0, 208, 156, 0.1)',
         },
     ];
 
-    const handleIndexChanged = (index) => {
-        setCurrentIndex(index);
+    const runEnterAnimation = () => {
         fadeAnim.setValue(0);
         scaleAnim.setValue(0.95);
         Animated.parallel([
@@ -77,66 +62,87 @@ const Onboarding = ({ navigation }) => {
         ]).start();
     };
 
+    React.useEffect(() => {
+        runEnterAnimation();
+    }, []);
+
+    const handleIndexChanged = (index) => {
+        setSlideIndex(index);
+        runEnterAnimation();
+    };
+
+    const renderSlide = (slide) => (
+        <ScrollView
+            style={styles.slideVerticalScroll}
+            contentContainerStyle={styles.welcomeScrollContent}
+            showsVerticalScrollIndicator
+            keyboardShouldPersistTaps="handled"
+            nestedScrollEnabled={Platform.OS === 'android'}
+            bounces
+        >
+            <Animated.View
+                style={[
+                    styles.slide,
+                    {
+                        opacity: fadeAnim,
+                        transform: [{ scale: scaleAnim }],
+                    },
+                ]}
+            >
+                <View style={styles.imageContainer}>
+                    <Image source={slide.image} style={styles.image} resizeMode="contain" />
+                </View>
+                <View style={[styles.textContainer, { paddingHorizontal: space(1) }]}>
+                    <Text style={[InterType.headline, styles.titleCenter]}>{slide.title}</Text>
+                    <Text style={[InterType.body, styles.description]}>{slide.description}</Text>
+                </View>
+            </Animated.View>
+        </ScrollView>
+    );
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="light-content" backgroundColor="#000000" />
 
             <View style={styles.swiperContainer}>
                 <Swiper
-                    ref={swiperRef}
+                    index={slideIndex}
                     loop={false}
                     onIndexChanged={handleIndexChanged}
                     showsPagination={false}
                 >
                     {slides.map((slide) => (
-                        <Animated.View 
-                            key={slide.id} 
-                            style={[
-                                styles.slide,
-                                {
-                                    opacity: fadeAnim,
-                                    transform: [{ scale: scaleAnim }],
-                                }
-                            ]}
-                        >
-                            <View style={styles.imageContainer}>
-                                {/* Glow backdrop behind image */}
-                                <View style={[styles.imageGlowBackdrop, { backgroundColor: slide.gradientColor }]} />
-                                <Image
-                                    source={slide.image}
-                                    style={styles.image}
-                                    resizeMode="contain"
-                                />
-                            </View>
-                            <View style={styles.textContainer}>
-                                <Text style={styles.title}>{slide.title}</Text>
-                                <Text style={styles.description}>{slide.description}</Text>
-                            </View>
-                        </Animated.View>
+                        <View key={slide.id} style={styles.slideOuter}>
+                            {renderSlide(slide)}
+                        </View>
                     ))}
                 </Swiper>
             </View>
 
-            {/* Progress Indicator */}
-            <View style={styles.progressContainer}>
+            <View style={[styles.progressContainer, { marginBottom: space(2) }]}>
                 {slides.map((_, index) => (
                     <View
                         key={index}
                         style={[
-                            styles.progressBar,
-                            currentIndex === index && styles.progressBarActive,
+                            styles.progressDot,
+                            slideIndex === index && styles.progressDotActive,
                         ]}
                     />
                 ))}
             </View>
 
-            <View style={styles.buttonContainer}>
+            <View
+                style={[
+                    styles.buttonContainer,
+                    { paddingHorizontal: space(3), paddingBottom: space(6) },
+                ]}
+            >
                 <TouchableOpacity
                     style={styles.loginButton}
                     onPress={() => navigation.navigate('Login')}
                     activeOpacity={0.7}
                 >
-                    <Text style={styles.loginText}>Log in</Text>
+                    <Text style={[InterType.button, styles.loginText]}>Login</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -144,7 +150,7 @@ const Onboarding = ({ navigation }) => {
                     onPress={() => navigation.navigate('EmailSignup')}
                     activeOpacity={0.8}
                 >
-                    <Text style={styles.signupText}>Sign up</Text>
+                    <Text style={[InterType.button, styles.signupText]}>Sign up</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -156,119 +162,97 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#000000',
     },
-    backgroundGlowContainer: {
-        ...StyleSheet.absoluteFillObject,
-        overflow: 'hidden',
-    },
     swiperContainer: {
         flex: 4,
     },
-    slide: {
+    slideOuter: {
         flex: 1,
+    },
+    slideVerticalScroll: {
+        flex: 1,
+    },
+    welcomeScrollContent: {
+        flexGrow: 1,
+        paddingBottom: space(4),
+    },
+    slide: {
         alignItems: 'center',
-        paddingHorizontal: 40,
-        paddingTop: 60,
+        paddingHorizontal: space(3),
+        paddingTop: space(6),
     },
     imageContainer: {
-        flex: 1,
+        minHeight: width * 0.55,
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
-        position: 'relative',
-    },
-    imageGlowBackdrop: {
-        position: 'absolute',
-        width: width * 0.8,
-        height: width * 0.8,
-        borderRadius: width * 0.4,
-        opacity: 0.5,
+        paddingVertical: space(2),
     },
     image: {
-        width: width * 0.65,
-        height: width * 0.65,
-        zIndex: 1,
+        width: width * 0.72,
+        height: width * 0.72,
     },
     textContainer: {
         alignItems: 'center',
-        marginTop: 40,
-        height: 180,
+        marginTop: space(3),
+        paddingBottom: space(2),
         zIndex: 1,
     },
-    title: {
-        color: '#FFFFFF',
-        fontSize: 28,
-        fontFamily: 'DMSans-Bold',
-        fontWeight: '700',
+    titleCenter: {
         textAlign: 'center',
-        lineHeight: 38,
-        letterSpacing: -0.5,
+        lineHeight: 40,
     },
     description: {
-        color: '#888888',
-        fontSize: 14,
-        fontFamily: 'DMSans-Regular',
         textAlign: 'center',
-        marginTop: 16,
-        lineHeight: 22,
-        paddingHorizontal: 10,
+        marginTop: space(2),
+        paddingHorizontal: space(1),
     },
     progressContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        gap: 8,
-        marginBottom: 20,
+        gap: space(1),
     },
-    progressBar: {
-        width: 24,
-        height: 4,
-        borderRadius: 2,
-        backgroundColor: '#333333',
+    progressDot: {
+        width: 8,
+        height: 8,
+        borderRadius: 4,
+        backgroundColor: '#3A3A3C',
     },
-    progressBarActive: {
-        backgroundColor: '#00D09C',
-        width: 32,
+    progressDotActive: {
+        backgroundColor: '#FFFFFF',
+        transform: [{ scale: 1.15 }],
     },
     buttonContainer: {
         flexDirection: 'row',
-        paddingHorizontal: 25,
-        paddingBottom: 50,
         justifyContent: 'space-between',
-        gap: 15,
+        gap: space(2),
     },
     loginButton: {
         flex: 1,
-        height: 54,
-        borderRadius: 27,
-        backgroundColor: '#0D1117',
+        height: 48,
+        borderRadius: 24,
+        backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: '#1C2326',
+        borderColor: '#FFFFFF',
     },
     loginText: {
         color: '#FFFFFF',
-        fontSize: 16,
-        fontFamily: 'DMSans-SemiBold',
-        fontWeight: '600',
+        fontWeight: '700',
     },
     signupButton: {
         flex: 1,
-        height: 54,
-        borderRadius: 27,
-        backgroundColor: '#00D09C',
+        height: 48,
+        borderRadius: 24,
+        backgroundColor: '#FFFFFF',
         justifyContent: 'center',
         alignItems: 'center',
-        shadowColor: '#00D09C',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.4,
-        shadowRadius: 12,
-        elevation: 8,
+        borderWidth: 1,
+        borderColor: '#FFFFFF',
     },
     signupText: {
         color: '#000000',
-        fontSize: 16,
-        fontFamily: 'DMSans-Bold',
         fontWeight: '700',
     },
 });

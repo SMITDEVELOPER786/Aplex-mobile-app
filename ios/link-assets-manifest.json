@@ -288,6 +288,10 @@
     {
       "path": "src/assets/fonts/static/DMSans_36pt-ThinItalic.ttf",
       "sha1": "2a05277bc740a597c5da65df2c7b8c00e0d2a5ff"
+    },
+    {
+      "path": "src/assets/fonts/static/InterVariable.ttf",
+      "sha1": "20680c90613c87c9ff178c87a0f4ab111bef25c8"
     }
   ]
 }

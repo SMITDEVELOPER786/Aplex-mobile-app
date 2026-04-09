@@ -101,7 +101,7 @@ const Login = ({ navigation, route }) => {
                 <View style={styles.modalOverlay}>
                     <Animated.View style={[styles.modalContent, { opacity: fadeAnim }]}>
                         <View style={styles.successIconCircle}>
-                            <Check color="#000000" size={32} strokeWidth={3} />
+                            <Check color="#FFFFFF" size={32} strokeWidth={3} />
                         </View>
                         <Text style={styles.modalTitleText}>Account Created Successfully</Text>
                         <Text style={styles.modalSubtitleText}>
@@ -299,9 +299,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     checkboxActive: {
-        backgroundColor: '#00D09C',
-        borderColor: '#00D09C',
-        shadowColor: '#00D09C',
+        backgroundColor: '#1F51FF',
+        borderColor: '#1F51FF',
+        shadowColor: '#1F51FF',
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.3,
         shadowRadius: 8,
@@ -332,20 +332,20 @@ const styles = StyleSheet.create({
         opacity: 0.5,
     },
     signInButton: {
-        backgroundColor: '#00D09C',
-        height: 55,
-        borderRadius: 27.5,
+        backgroundColor: '#1F51FF',
+        height: 52,
+        borderRadius: 26,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 10,
-        shadowColor: '#00D09C',
+        shadowColor: '#1F51FF',
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.4,
         shadowRadius: 12,
         elevation: 8,
     },
     signInText: {
-        color: '#000000',
+        color: '#FFFFFF',
         fontSize: 16,
         fontFamily: 'DMSans-Bold',
         fontWeight: '700',
@@ -403,11 +403,11 @@ const styles = StyleSheet.create({
         width: 80,
         height: 80,
         borderRadius: 40,
-        backgroundColor: '#00D09C',
+        backgroundColor: '#1F51FF',
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 25,
-        shadowColor: '#00D09C',
+        shadowColor: '#1F51FF',
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.5,
         shadowRadius: 20,
@@ -430,20 +430,20 @@ const styles = StyleSheet.create({
         marginBottom: 30,
     },
     modalButton: {
-        backgroundColor: '#00D09C',
+        backgroundColor: '#1F51FF',
         width: '100%',
-        height: 55,
-        borderRadius: 27.5,
+        height: 52,
+        borderRadius: 26,
         justifyContent: 'center',
         alignItems: 'center',
-        shadowColor: '#00D09C',
+        shadowColor: '#1F51FF',
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.4,
         shadowRadius: 12,
         elevation: 8,
     },
     modalButtonText: {
-        color: '#000000',
+        color: '#FFFFFF',
         fontSize: 16,
         fontFamily: 'DMSans-Bold',
         fontWeight: '700',
@@ -459,8 +459,8 @@ const styles = StyleSheet.create({
         width: 400,
         height: 400,
         borderRadius: 200,
-        backgroundColor: 'rgba(0, 208, 156, 0.12)',
-        shadowColor: '#00D09C',
+        backgroundColor: 'rgba(31, 81, 255, 0.12)',
+        shadowColor: '#1F51FF',
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.3,
         shadowRadius: 80,

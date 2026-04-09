@@ -19,7 +19,7 @@ import { ActivityIndicator } from 'react-native';
 const { width } = Dimensions.get('window');
 
 const BUYABLE_ASSETS = [
-    { id: '1', name: 'Solana', symbol: 'SOL', color: '#00FFA3' },
+    { id: '1', name: 'Solana', symbol: 'SOL', color: '#1F51FF' },
     { id: '2', name: 'Bitcoin', symbol: 'BTC', color: '#F7931A' },
     { id: '3', name: 'Ethereum', symbol: 'ETH', color: '#627EEA' },
     { id: '4', name: 'USD Coin', symbol: 'USDC', color: '#2775CA' },
@@ -226,7 +226,7 @@ const Buy = ({ navigation }) => {
                                             <Text style={styles.assetSymbolText}>{item.symbol}</Text>
                                         </View>
                                         {selectedAsset.id === item.id && (
-                                            <Check color="#0052FF" size={20} />
+                                            <Check color="#1F51FF" size={20} />
                                         )}
                                     </TouchableOpacity>
                                 )}
@@ -389,7 +389,7 @@ const styles = StyleSheet.create({
         fontFamily: 'DMSans-Medium',
     },
     paymentTextActive: {
-        color: '#0052FF',
+        color: '#1F51FF',
     },
     modalOverlay: {
         position: 'absolute',

@@ -43,7 +43,7 @@ const SOLStakedView = ({ navigation }) => {
                     </View>
                     <View style={styles.progressLabels}>
                         <View style={styles.labelItem}>
-                            <View style={[styles.dot, { backgroundColor: '#4CD964' }]} />
+                            <View style={[styles.dot, { backgroundColor: '#1F51FF' }]} />
                             <Text style={styles.labelText}>Staked</Text>
                             <View style={{ flex: 1 }} />
                             <View style={{ alignItems: 'flex-end' }}>
@@ -78,7 +78,7 @@ const SOLStakedView = ({ navigation }) => {
                     </View>
                     <View style={styles.infoRow}>
                         <Text style={styles.infoLabel}>Pending earnings</Text>
-                        <Text style={[styles.infoValue, { color: '#4CD964' }]}>+$2.40</Text>
+                        <Text style={[styles.infoValue, { color: '#1F51FF' }]}>+$2.40</Text>
                     </View>
                     <View style={styles.infoRow}>
                         <Text style={styles.infoLabel}>Next payout date</Text>
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     progressBarFill: {
         width: '80%',
         height: '100%',
-        backgroundColor: '#4CD964',
+        backgroundColor: '#1F51FF',
         borderRadius: 12,
     },
     progressLabels: {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import {
     View,
     Text,
@@ -7,18 +7,76 @@ import {
     SafeAreaView,
     StatusBar,
     ScrollView,
-
     Image,
     Dimensions,
     Platform,
     Modal,
+    Animated,
+    Easing,
 } from 'react-native';
 import { ArrowLeft, ChevronDown, Scan, Zap, Info, ArrowRight } from 'lucide-react-native';
+import { Colors, Type, Button as Btn } from '../theme/tokens';
 
 const { width } = Dimensions.get('window');
 
+/** Robinhood-style digit entry: ease-out slide up + fade + subtle scale (no spring bounce). */
+const DIGIT_SLIDE = 16;
+const DIGIT_ROW_MIN_HEIGHT = Math.ceil(Type.amountDigit * 1.15);
+
+function AnimatedAmountDigit({ char, shouldAnimate }) {
+    const translateY = useRef(new Animated.Value(shouldAnimate ? DIGIT_SLIDE : 0)).current;
+    const opacity = useRef(new Animated.Value(shouldAnimate ? 0 : 1)).current;
+    const scale = useRef(new Animated.Value(shouldAnimate ? 0.94 : 1)).current;
+
+    useEffect(() => {
+        if (!shouldAnimate) {
+            translateY.setValue(0);
+            opacity.setValue(1);
+            scale.setValue(1);
+            return;
+        }
+        translateY.setValue(DIGIT_SLIDE);
+        opacity.setValue(0);
+        scale.setValue(0.94);
+        const ease = Easing.out(Easing.cubic);
+        Animated.parallel([
+            Animated.timing(translateY, {
+                toValue: 0,
+                duration: 260,
+                easing: ease,
+                useNativeDriver: true,
+            }),
+            Animated.timing(opacity, {
+                toValue: 1,
+                duration: 200,
+                easing: Easing.out(Easing.quad),
+                useNativeDriver: true,
+            }),
+            Animated.timing(scale, {
+                toValue: 1,
+                duration: 260,
+                easing: ease,
+                useNativeDriver: true,
+            }),
+        ]).start();
+    }, [shouldAnimate, char]);
+
+    return (
+        <View style={styles.digitClip}>
+            <Animated.View
+                style={{
+                    transform: [{ translateY }, { scale }],
+                    opacity,
+                }}
+            >
+                <Text style={styles.largeAmountText}>{char}</Text>
+            </Animated.View>
+        </View>
+    );
+}
+
 const COINS = [
-    { id: '1', name: 'Solana', symbol: 'SOL', icon: 'S', color: '#00FFA3' },
+    { id: '1', name: 'Solana', symbol: 'SOL', icon: 'S', color: '#1F51FF' },
     { id: '2', name: 'Bitcoin', symbol: 'BTC', icon: '₿', color: '#F7931A' },
     { id: '3', name: 'Ethereum', symbol: 'ETH', icon: 'Ξ', color: '#627EEA' },
     { id: '4', name: 'USD Coin', symbol: 'USDC', icon: '$', color: '#2775CA' },
@@ -30,12 +88,30 @@ const Swap = ({ navigation, route }) => {
     const [step, setStep] = useState(2); // Start at amount entry as per screenshot
     const [fromCoin, setFromCoin] = useState(COINS[0]);
     const [toCoin, setToCoin] = useState(COINS[3]);
-    const [amount, setAmount] = useState('250');
+    const [amount, setAmount] = useState('0');
     const [isSelectingFrom, setIsSelectingFrom] = useState(false);
     const [isSelectingTo, setIsSelectingTo] = useState(false);
     const [showCoinModal, setShowCoinModal] = useState(false);
     const [modalType, setModalType] = useState('from'); // 'from' or 'to'
     const [activeUnit, setActiveUnit] = useState('CURRENCY'); // 'COIN' or 'CURRENCY'
+
+    const prevAmountRef = useRef(amount);
+    const skipNextDigitAnimRef = useRef(true);
+
+    const prev = prevAmountRef.current;
+    let enterDigitIndex = -1;
+    if (!skipNextDigitAnimRef.current) {
+        if (amount.length > prev.length) {
+            enterDigitIndex = amount.length - 1;
+        } else if (amount.length === prev.length && amount !== prev && amount.length > 0) {
+            enterDigitIndex = amount.length - 1;
+        }
+    }
+
+    useLayoutEffect(() => {
+        skipNextDigitAnimRef.current = false;
+        prevAmountRef.current = amount;
+    }, [amount]);
 
     const handleKeyPress = (key) => {
         if (key === 'backspace') {
@@ -154,10 +230,20 @@ const Swap = ({ navigation, route }) => {
                 </TouchableOpacity>
             </View>
 
-            {/* Amount Section */}
+            {/* Amount Section — Robinhood-style digit enter */}
             <View style={styles.amountDisplaySection}>
-                <Text style={styles.amountPrefix}>$</Text>
-                <Text style={styles.largeAmountText}>{amount}</Text>
+                <Text style={styles.amountPrefix}>
+                    {activeUnit === 'CURRENCY' ? '$' : fromCoin.symbol}
+                </Text>
+                <View style={styles.amountDigitsRow}>
+                    {amount.split('').map((ch, i) => (
+                        <AnimatedAmountDigit
+                            key={i}
+                            char={ch}
+                            shouldAnimate={i === enterDigitIndex}
+                        />
+                    ))}
+                </View>
             </View>
 
             {/* Toggle Unit */}
@@ -304,8 +390,9 @@ const styles = StyleSheet.create({
     },
     headerTitle: {
         color: '#FFFFFF',
-        fontSize: 16,
+        fontSize: Type.headline,
         fontFamily: 'DMSans-SemiBold',
+        fontWeight: '600',
     },
     swapMainContainer: {
         flex: 1,
@@ -325,13 +412,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingVertical: 10,
         borderRadius: 25,
-        borderWidth: 1,
-        borderColor: '#333333',
+        borderWidth: Btn.borderWidth,
+        borderColor: Colors.separator,
         gap: 8,
     },
     convertLabel: {
         color: '#FFFFFF',
-        fontSize: 14,
+        fontSize: Type.subheadline,
         fontFamily: 'DMSans-SemiBold',
     },
     arrowContainer: {
@@ -344,20 +431,31 @@ const styles = StyleSheet.create({
     },
     amountDisplaySection: {
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         justifyContent: 'center',
         marginTop: 60,
     },
+    amountDigitsRow: {
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+    },
+    digitClip: {
+        overflow: 'hidden',
+        justifyContent: 'flex-end',
+        minHeight: DIGIT_ROW_MIN_HEIGHT,
+    },
     amountPrefix: {
-        color: '#FFFFFF',
-        fontSize: 48,
+        color: Colors.labelPrimary,
+        fontSize: Type.amountCurrency,
         fontFamily: 'DMSans-Bold',
+        fontWeight: '700',
         marginRight: 4,
     },
     largeAmountText: {
-        color: '#FFFFFF',
-        fontSize: 64,
+        color: Colors.labelPrimary,
+        fontSize: Type.amountDigit,
         fontFamily: 'DMSans-Bold',
+        fontWeight: '700',
     },
     unitToggleContainer: {
         flexDirection: 'row',
@@ -380,30 +478,33 @@ const styles = StyleSheet.create({
     },
     unitText: {
         color: '#666666',
-        fontSize: 14,
+        fontSize: Type.footnote,
         fontFamily: 'DMSans-SemiBold',
     },
     unitTextActive: {
         color: '#FFFFFF',
     },
     availableBalanceText: {
-        color: '#666666',
-        fontSize: 12,
+        color: Colors.labelTertiary,
+        fontSize: Type.caption1,
         textAlign: 'center',
         marginTop: 15,
     },
     reviewMainButton: {
         backgroundColor: '#E0E0E0',
-        height: 56,
-        borderRadius: 28,
+        height: Btn.height,
+        borderRadius: Btn.radius,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 40,
+        borderWidth: Btn.borderWidth,
+        borderColor: 'transparent',
     },
     reviewMainButtonText: {
         color: '#000000',
-        fontSize: 16,
-        fontFamily: 'DMSans-Bold',
+        fontSize: Btn.textSize,
+        fontFamily: 'DMSans-SemiBold',
+        fontWeight: '600',
     },
     numberPadGrid: {
         flexDirection: 'row',
@@ -421,7 +522,7 @@ const styles = StyleSheet.create({
     },
     numKeyText: {
         color: '#FFFFFF',
-        fontSize: 28,
+        fontSize: Type.keypad,
         fontFamily: 'DMSans-Medium',
     },
     // Review Styles (Step 3)
@@ -486,18 +587,21 @@ const styles = StyleSheet.create({
     },
     swipeToSwapBtn: {
         backgroundColor: '#FFFFFF',
-        height: 64,
-        borderRadius: 32,
+        height: 52,
+        borderRadius: 26,
         marginHorizontal: 20,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 'auto',
         marginBottom: 20,
+        borderWidth: Btn.borderWidth,
+        borderColor: 'transparent',
     },
     swipeToSwapText: {
         color: '#000000',
-        fontSize: 18,
-        fontFamily: 'DMSans-Bold',
+        fontSize: Btn.textSize,
+        fontFamily: 'DMSans-SemiBold',
+        fontWeight: '600',
     },
     // Modal Styles
     modalOverlay: {

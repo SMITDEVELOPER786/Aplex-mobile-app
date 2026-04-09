@@ -12,6 +12,7 @@ import {
     Platform,
 } from 'react-native';
 import { X, ChevronRight } from 'lucide-react-native';
+import { Colors, Space, Type } from '../theme/tokens';
 
 const { width } = Dimensions.get('window');
 const DRAWER_WIDTH = width * 0.75;
@@ -101,7 +102,7 @@ const NavigationDrawer = ({ visible, onClose, navigation }) => {
                                     activeOpacity={0.7}
                                 >
                                     <Text style={styles.menuItemText}>{item.title}</Text>
-                                    <ChevronRight color="#666666" size={20} />
+                                    <ChevronRight color={Colors.labelTertiary} size={20} />
                                 </TouchableOpacity>
                             ))}
                         </View>
@@ -133,65 +134,65 @@ const styles = StyleSheet.create({
     },
     backdrop: {
         ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        backgroundColor: 'rgba(0, 0, 0, 0.55)',
     },
     drawer: {
         width: DRAWER_WIDTH,
         height: '100%',
-        backgroundColor: '#000000',
-        elevation: 10,
-        shadowColor: '#000',
-        shadowOffset: { width: 4, height: 0 },
-        shadowOpacity: 0.5,
-        shadowRadius: 10,
+        backgroundColor: Colors.black,
+        elevation: 16,
+        shadowColor: '#000000',
+        shadowOffset: { width: 2, height: 0 },
+        shadowOpacity: 0.45,
+        shadowRadius: 16,
     },
     drawerContent: {
         flex: 1,
     },
     drawerHeader: {
-        paddingHorizontal: 20,
-        paddingTop: Platform.OS === 'ios' ? 10 : 20,
-        paddingBottom: 15,
-        borderBottomWidth: 1,
-        borderBottomColor: '#1A1A1A',
+        paddingHorizontal: Space[2],
+        paddingTop: Platform.OS === 'ios' ? Space[1] : Space[2],
+        paddingBottom: Space[2],
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomColor: Colors.separator,
     },
     closeButton: {
         padding: 5,
     },
     menuContainer: {
         flex: 1,
-        paddingTop: 10,
+        paddingTop: Space[1],
     },
     menuItem: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingHorizontal: 25,
-        paddingVertical: 18,
-        borderBottomWidth: 1,
-        borderBottomColor: '#1A1A1A',
+        paddingHorizontal: Space[3],
+        paddingVertical: Space[2],
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomColor: Colors.separator,
     },
     menuItemText: {
-        color: '#FFFFFF',
-        fontSize: 16,
+        color: Colors.labelPrimary,
+        fontSize: Type.callout,
         fontFamily: 'DMSans-Medium',
         fontWeight: '500',
     },
     logoutContainer: {
-        paddingHorizontal: 25,
-        paddingBottom: Platform.OS === 'ios' ? 40 : 30,
+        paddingHorizontal: Space[3],
+        paddingBottom: Platform.OS === 'ios' ? Space[5] : Space[4],
     },
     logoutButton: {
         borderWidth: 1,
-        borderColor: '#FF3B30',
-        borderRadius: 30,
-        paddingVertical: 14,
+        borderColor: Colors.rhRed,
+        borderRadius: 24,
+        paddingVertical: Space[2],
         alignItems: 'center',
         justifyContent: 'center',
     },
     logoutText: {
-        color: '#FF3B30',
-        fontSize: 16,
+        color: Colors.rhRed,
+        fontSize: Type.callout,
         fontFamily: 'DMSans-SemiBold',
         fontWeight: '600',
     },

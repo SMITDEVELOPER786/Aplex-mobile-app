@@ -9,7 +9,6 @@ import React from 'react';
 import {
   StatusBar,
   StyleSheet,
-  useColorScheme,
   View,
 } from 'react-native';
 
@@ -26,13 +25,12 @@ import { WalletProvider } from './src/context/WalletContext';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
   return (
     <SafeAreaProvider>
       <StatusBar
-        backgroundColor="black"
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor="#000000"
+        barStyle="light-content"
+        translucent={false}
       />
       <WalletProvider>
         <AppContent />
