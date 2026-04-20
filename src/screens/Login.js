@@ -88,11 +88,6 @@ const Login = ({ navigation, route }) => {
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="light-content" backgroundColor="#000000" />
 
-            {/* Background Gradient Glow */}
-            <View style={styles.backgroundGlowContainer}>
-                <View style={styles.gradientOrb} />
-            </View>
-
             <Modal
                 visible={showSuccessModal}
                 transparent={true}
@@ -447,24 +442,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: 'DMSans-Bold',
         fontWeight: '700',
-    },
-    backgroundGlowContainer: {
-        ...StyleSheet.absoluteFillObject,
-        overflow: 'hidden',
-    },
-    gradientOrb: {
-        position: 'absolute',
-        top: -200,
-        right: -200,
-        width: 400,
-        height: 400,
-        borderRadius: 200,
-        backgroundColor: 'rgba(31, 81, 255, 0.12)',
-        shadowColor: '#1F51FF',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.3,
-        shadowRadius: 80,
-        elevation: 20,
     },
 });
 

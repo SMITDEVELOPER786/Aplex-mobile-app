@@ -40,12 +40,85 @@ import { ActivityIndicator } from 'react-native';
 
 const ACTION_ICON_COLOR = Colors.labelPrimary;
 
-/** Main wallet chart — shared path for fill, glow, and stroke. */
-const PORTFOLIO_CHART_LINE =
-    'M16,78 C68,74 112,54 152,48 S236,36 288,30 S332,24 344,22';
-const PORTFOLIO_CHART_AREA = `${PORTFOLIO_CHART_LINE} L344,94 L16,94 Z`;
-const PORTFOLIO_MARKER = { cx: 344, cy: 22 };
 const PORTFOLIO_GRID_YS = [28, 50, 72];
+
+/** SVG paths per time range (viewBox 0 0 360 96). Marker = latest point. */
+const PORTFOLIO_CHART_BY_RANGE = {
+    live: {
+        line: 'M16,46 C32,60 48,38 64,52 C80,36 96,58 112,42 C128,56 144,40 160,50 C176,38 192,52 208,44 C224,56 240,42 256,48 C272,40 288,50 304,44 C320,38 332,34 344,30',
+        marker: { cx: 344, cy: 30 },
+    },
+    '1d': {
+        line: 'M16,42 C42,58 58,62 76,65 C92,58 112,52 136,50 C158,42 178,34 196,30 C218,24 238,20 256,20 C270,32 286,52 300,58 C314,50 328,38 344,30',
+        marker: { cx: 344, cy: 30 },
+    },
+    '1w': {
+        line: 'M16,64 C72,58 120,38 170,28 C210,32 248,52 288,46 C310,40 326,34 344,28',
+        marker: { cx: 344, cy: 28 },
+    },
+    '1m': {
+        line: 'M16,72 C90,58 150,42 210,32 C250,38 290,32 320,28 C330,28 338,29 344,27',
+        marker: { cx: 344, cy: 27 },
+    },
+    '3m': {
+        line: 'M16,75 C60,72 100,48 140,32 C180,22 220,38 260,55 C290,48 314,38 344,30',
+        marker: { cx: 344, cy: 30 },
+    },
+    '1y': {
+        line: 'M16,82 C80,78 140,60 200,42 C260,28 300,24 320,26 C332,26 340,28 344,29',
+        marker: { cx: 344, cy: 29 },
+    },
+};
+
+const TIME_FILTERS = [
+    { key: 'live', label: 'LIVE' },
+    { key: '1d', label: '1D' },
+    { key: '1w', label: '1W' },
+    { key: '1m', label: '1M' },
+    { key: '3m', label: '3M' },
+    { key: '1y', label: '1Y' },
+];
+
+function getPortfolioChartSpec(rangeKey) {
+    return PORTFOLIO_CHART_BY_RANGE[rangeKey] ?? PORTFOLIO_CHART_BY_RANGE['1d'];
+}
+
+function getChartRangeDescription(rangeKey, _liveTick = 0) {
+    const now = new Date();
+    const shortDate = (d) =>
+        d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const timeNow = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+    switch (rangeKey) {
+        case 'live':
+            void _liveTick; // dependency so LIVE label refreshes on interval
+            return `${shortDate(now)} · ${timeNow} (live)`;
+        case '1d':
+            return `${shortDate(now)} · last 24 hours`;
+        case '1w': {
+            const start = new Date(now);
+            start.setDate(start.getDate() - 7);
+            return `${shortDate(start)} — ${shortDate(now)}`;
+        }
+        case '1m': {
+            const start = new Date(now);
+            start.setMonth(start.getMonth() - 1);
+            return `${shortDate(start)} — ${shortDate(now)}`;
+        }
+        case '3m': {
+            const start = new Date(now);
+            start.setMonth(start.getMonth() - 3);
+            return `${shortDate(start)} — ${shortDate(now)}`;
+        }
+        case '1y': {
+            const start = new Date(now);
+            start.setFullYear(start.getFullYear() - 1);
+            return `${shortDate(start)} — ${shortDate(now)}`;
+        }
+        default:
+            return `${shortDate(now)} · last 24 hours`;
+    }
+}
 
 /** Split "$12,345.67" → smaller "$" + amount (client typography). */
 function splitLeadingDollar(value) {
@@ -176,6 +249,7 @@ const Home = ({ navigation }) => {
     const [isDrawerVisible, setIsDrawerVisible] = useState(false);
     const [activeTimeFilter, setActiveTimeFilter] = useState('1d');
     const [isLoading, setIsLoading] = useState(true);
+    const [liveClockTick, setLiveClockTick] = useState(0);
 
     React.useEffect(() => {
         const timer = setTimeout(() => {
@@ -184,14 +258,13 @@ const Home = ({ navigation }) => {
         return () => clearTimeout(timer);
     }, []);
 
-    const TIME_FILTERS = [
-        { key: 'live', label: 'LIVE' },
-        { key: '1d', label: '1D' },
-        { key: '1w', label: '1W' },
-        { key: '1m', label: '1M' },
-        { key: '3m', label: '3M' },
-        { key: '1y', label: '1Y' },
-    ];
+    React.useEffect(() => {
+        if (activeTimeFilter !== 'live') {
+            return undefined;
+        }
+        const id = setInterval(() => setLiveClockTick((n) => n + 1), 30000);
+        return () => clearInterval(id);
+    }, [activeTimeFilter]);
 
     const [portfolioData] = useState([
         {
@@ -249,6 +322,12 @@ const Home = ({ navigation }) => {
             sparkline: 'up',
         },
     ]);
+
+    const chartSpec = getPortfolioChartSpec(activeTimeFilter);
+    const portfolioChartLine = chartSpec.line;
+    const portfolioChartArea = `${portfolioChartLine} L344,96 L16,96 Z`;
+    const portfolioMarker = chartSpec.marker;
+    const chartRangeLabel = getChartRangeDescription(activeTimeFilter, liveClockTick);
 
     const renderPortfolioItem = ({ item }) => {
         const isPositive = item.percentage.trim().startsWith('+');
@@ -366,7 +445,10 @@ const Home = ({ navigation }) => {
                     </View>
 
                     <View style={styles.chartSection}>
-                        <View style={styles.simpleChartCard}>
+                        <Text style={styles.chartRangeLabel} numberOfLines={2}>
+                            {chartRangeLabel}
+                        </Text>
+                        <View style={styles.chartGraphic}>
                             <Svg
                                 width="100%"
                                 height={136}
@@ -410,9 +492,9 @@ const Home = ({ navigation }) => {
                                     />
                                 ))}
 
-                                <Path d={PORTFOLIO_CHART_AREA} fill="url(#portfolioChartArea)" />
+                                <Path d={portfolioChartArea} fill="url(#portfolioChartArea)" />
                                 <Path
-                                    d={PORTFOLIO_CHART_LINE}
+                                    d={portfolioChartLine}
                                     fill="none"
                                     stroke={Colors.accent}
                                     strokeWidth={9}
@@ -421,7 +503,7 @@ const Home = ({ navigation }) => {
                                     opacity={0.14}
                                 />
                                 <Path
-                                    d={PORTFOLIO_CHART_LINE}
+                                    d={portfolioChartLine}
                                     fill="none"
                                     stroke={Colors.accent}
                                     strokeWidth={2.5}
@@ -429,14 +511,14 @@ const Home = ({ navigation }) => {
                                     strokeLinejoin="round"
                                 />
                                 <Circle
-                                    cx={PORTFOLIO_MARKER.cx}
-                                    cy={PORTFOLIO_MARKER.cy}
+                                    cx={portfolioMarker.cx}
+                                    cy={portfolioMarker.cy}
                                     r={16}
                                     fill="url(#portfolioMarkerGlow)"
                                 />
                                 <Circle
-                                    cx={PORTFOLIO_MARKER.cx}
-                                    cy={PORTFOLIO_MARKER.cy}
+                                    cx={portfolioMarker.cx}
+                                    cy={portfolioMarker.cy}
                                     r={6}
                                     fill={Colors.accent}
                                     stroke={Colors.white}
@@ -649,18 +731,20 @@ const styles = StyleSheet.create({
     chartSection: {
         marginBottom: 28,
     },
-    simpleChartCard: {
+    chartRangeLabel: {
+        color: Colors.labelSecondary,
+        fontSize: Type.caption1,
+        fontFamily: 'DMSans-Medium',
+        fontWeight: '500',
+        marginBottom: 10,
+        marginHorizontal: 0,
+        paddingRight: 4,
+    },
+    /** Chart only — no card/border; full-bleed vs scroll padding */
+    chartGraphic: {
         width: '100%',
-        minHeight: 152,
-        marginBottom: 16,
-        borderRadius: 20,
-        backgroundColor: '#0E1014',
-        borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.08)',
-        justifyContent: 'center',
-        paddingHorizontal: 10,
-        paddingVertical: 12,
-        overflow: 'hidden',
+        marginHorizontal: -20,
+        marginBottom: 12,
     },
     timeFilterScrollView: {
         marginBottom: 8,

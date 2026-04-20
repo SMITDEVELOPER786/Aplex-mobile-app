@@ -51,11 +51,13 @@ const Splash = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar hidden />
-      <Animated.View style={[styles.row, { opacity }]}>
-        <Text style={styles.title}>ALPEXA SUISSE</Text>
-        <Animated.View
-          style={[styles.cursor, { opacity: cursorBlink }]}
-        />
+      <Animated.View style={[styles.content, { opacity }]}>
+        <View style={styles.row}>
+          <Text style={styles.title}>ALPEXA SUISSE</Text>
+          <Animated.View
+            style={[styles.cursor, { opacity: cursorBlink }]}
+          />
+        </View>
       </Animated.View>
     </View>
   );
@@ -68,11 +70,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  content: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+  },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 20,
   },
   title: {
     color: '#FFFFFF',
@@ -85,7 +91,7 @@ const styles = StyleSheet.create({
     width: 3,
     height: 26,
     marginLeft: 4,
-    backgroundColor: '#2B7CFF',
+    backgroundColor: '#FFFFFF',
     borderRadius: 1,
   },
 });

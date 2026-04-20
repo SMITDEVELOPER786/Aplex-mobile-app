@@ -129,12 +129,6 @@ const EmailSignup = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="light-content" backgroundColor="#000000" />
 
-            {/* Background Gradient Glow */}
-            <View style={styles.backgroundGlowContainer}>
-                <View style={styles.gradientOrb1} />
-                <View style={styles.gradientOrb2} />
-            </View>
-
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={{ flex: 1 }}
@@ -517,38 +511,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: 'DMSans-SemiBold',
         fontWeight: '600',
-    },
-    backgroundGlowContainer: {
-        ...StyleSheet.absoluteFillObject,
-        overflow: 'hidden',
-    },
-    gradientOrb1: {
-        position: 'absolute',
-        top: -150,
-        left: -150,
-        width: 350,
-        height: 350,
-        borderRadius: 175,
-        backgroundColor: 'rgba(31, 81, 255, 0.08)',
-        shadowColor: '#1F51FF',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.3,
-        shadowRadius: 60,
-        elevation: 15,
-    },
-    gradientOrb2: {
-        position: 'absolute',
-        bottom: -100,
-        right: -100,
-        width: 300,
-        height: 300,
-        borderRadius: 150,
-        backgroundColor: 'rgba(31, 81, 255, 0.06)',
-        shadowColor: '#1F51FF',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.3,
-        shadowRadius: 60,
-        elevation: 15,
     },
     inputError: {
         borderColor: '#FF3B30',

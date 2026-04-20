@@ -1,43 +1,13 @@
-
 /**
  * @format
+ * Register the root component first. Anything above `registerComponent` that throws
+ * causes "aplex has not been registered" because native still starts with that name.
  */
+import { AppRegistry } from 'react-native';
 
-import React from 'react';
-import { AppRegistry, Text, TextInput } from 'react-native';
-import App from './App';
-import { name as appName } from './app.json';
+const ROOT_COMPONENT_NAME = 'aplex';
 
-// Global font override to DMSans-Medium
-// Note: defaultProps might be deprecated in some versions of RN
-if (!Text.defaultProps) Text.defaultProps = {};
-Text.defaultProps.style = {
-    fontFamily: 'DMSans-Medium',
-    fontWeight: '500'
-};
-
-if (!TextInput.defaultProps) TextInput.defaultProps = {};
-TextInput.defaultProps.style = {
-    fontFamily: 'DMSans-Medium',
-    fontWeight: '500'
-};
-
-// Handle possible existing styles by merging
-const oldTextRender = Text.render;
-if (oldTextRender) {
-    Text.render = function (...args) {
-        const origin = oldTextRender.call(this, ...args);
-        return React.cloneElement(origin, {
-            style: [styles.globalFont, origin.props.style],
-        });
-    };
-}
-
-const styles = {
-    globalFont: {
-        fontFamily: 'DMSans-Medium',
-        fontWeight: '500',
-    }
-};
-
-AppRegistry.registerComponent(appName, () => App);
+AppRegistry.registerComponent(ROOT_COMPONENT_NAME, () => {
+  require('./src/setupGlobalFonts');
+  return require('./App').default;
+});
